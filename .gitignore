@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+env/
+
+# Environment secrets
+.env
+.env.*
+backend/.env
+!backend/.env.example
+
+# Backend outputs
+backend/__pycache__/
+backend/reports/
+
+# Frontend outputs
+alex-demo/node_modules/
+alex-demo/.svelte-kit/
+alex-demo/build/
+alex-demo/.vercel/
+alex-demo/.netlify/
+alex-demo/.wrangler/
+
+# Workspace artifacts
+workspace/
+
+# Demo database
+northwind.db
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log

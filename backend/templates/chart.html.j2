@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Northwind Chart</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8fafc;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .chart-card {
+      width: 960px;
+      height: 600px;
+      padding: 32px;
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      background: #ffffff;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.10);
+    }
+    .chart-wrap {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="chart-card" id="chart-card">
+    <div class="chart-wrap">
+      <canvas id="chart"></canvas>
+    </div>
+  </div>
+  <script>
+    const chartCode = {{ chart_code | tojson }};
+
+    Chart.defaults.color = '#475569';
+    Chart.defaults.borderColor = 'rgba(148, 163, 184, 0.35)';
+    Chart.defaults.font.family = 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+    Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(15, 23, 42, 0.94)';
+    Chart.defaults.plugins.tooltip.titleColor = '#f8fafc';
+    Chart.defaults.plugins.tooltip.bodyColor = '#e2e8f0';
+    Chart.defaults.plugins.tooltip.padding = 10;
+    Chart.defaults.plugins.tooltip.cornerRadius = 8;
+
+    try {
+      const config = new Function(`${chartCode}\nreturn config;`)();
+      if (!config || typeof config !== 'object') {
+        throw new Error('Chart code did not return a config object.');
+      }
+      config.options = {
+        ...(config.options || {}),
+        animation: false,
+        responsive: true,
+        maintainAspectRatio: false
+      };
+      new Chart(document.getElementById('chart'), config);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          window.__chartReady = true;
+        });
+      });
+    } catch (error) {
+      window.__chartError = String(error);
+      document.body.innerHTML = `<pre>${String(error)}</pre>`;
+      window.__chartReady = true;
+    }
+  </script>
+</body>
+</html>
