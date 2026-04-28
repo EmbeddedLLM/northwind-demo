@@ -284,7 +284,7 @@ def _make_toolset(level: int, emit) -> SimpleToolset:
 
 def _make_provider(level: int) -> Kimi:
     _reasoning = {1: "low", 2: "low", 3: "medium", 4: "medium"}
-    _max_tok = {1: 2048, 2: 2048, 3: 128000, 4: 128000}
+    _max_tok = {1: 128000, 2: 128000, 3: 128000, 4: 128000}
     _temp = {1: 1.0, 2: 1.0, 3: 1.0, 4: 1.0}
     _top_p = {1: 0.01, 2: 0.01, 3: 0.01, 4: 0.01}
 
