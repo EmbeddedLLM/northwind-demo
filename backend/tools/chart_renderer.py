@@ -1,19 +1,19 @@
+import sys
 import uuid
 from pathlib import Path
-import sys
 
 from jinja2 import Environment, FileSystemLoader
 
 if __package__ in (None, ""):
-    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 try:
-    from .settings import REPORTS_DIR
+    from ..settings import REPORTS_DIR
 except ImportError:
     from backend.settings import REPORTS_DIR
 
 _jinja_env = Environment(
-    loader=FileSystemLoader(Path(__file__).parent / "templates"),
+    loader=FileSystemLoader(Path(__file__).resolve().parent.parent / "templates"),
     autoescape=True,
 )
 _chart_tmpl = _jinja_env.get_template("chart.html.j2")

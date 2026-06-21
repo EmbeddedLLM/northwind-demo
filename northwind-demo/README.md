@@ -15,7 +15,7 @@ To recreate this project with the same configuration:
 
 ```sh
 # recreate this project
-npx sv@0.15.1 create --template minimal --types ts --add prettier tailwindcss="plugins:none" --install npm alex-demo
+npx sv@0.15.1 create --template minimal --types ts --add prettier tailwindcss="plugins:none" --install npm northwind-demo
 ```
 
 ## Developing

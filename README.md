@@ -6,7 +6,7 @@ using the **Northwind Traders** dataset — a specialty food import/export compa
 This repo has two apps:
 
 - `backend/` = FastAPI agent server
-- `alex-demo/` = Svelte frontend
+- `northwind-demo/` = Svelte frontend
 
 ## Quick Start
 
@@ -14,6 +14,7 @@ This repo has two apps:
 
 ```bash
 uv sync --all-packages
+uv run playwright install chromium
 ```
 
 2. Download the demo database if you do not already have it:
@@ -39,7 +40,7 @@ uv run --package backend python backend/main.py
 5. Start the frontend in a second terminal:
 
 ```bash
-cd alex-demo
+cd northwind-demo
 npm install
 npm run dev
 ```
@@ -49,35 +50,6 @@ npm run dev
 The frontend is already configured to proxy `/api/*` requests to the backend on `http://localhost:8000`.
 
 If you only want the API, run steps 1 to 4 and skip the frontend.
-
----
-
-## Optional: Telegram Bot
-
-Alex also has a Telegram bot for a lighter, chat-first experience.
-It is best for two things:
-
-- chart generation
-- simple PDF report generation
-
-The bot shares the same backend agent, but it delivers charts as photos and
-PDF reports as uploaded documents.
-
-Run it from the repo root after setting `TELEGRAM_TOKEN` in `backend/.env`:
-
-```bash
-uv run --package backend python backend/telegram_bot.py
-```
-
-In Telegram, use:
-
-- `/start` to see the current mode
-- `/help` to get a demo prompt
-- `/level2` for chart generation
-- `/level3` for PDF report generation
-- `/setup` to reset the Level 4 workspace if you want to use that flow
-
----
 
 ## Using The Demo
 
@@ -254,7 +226,7 @@ running the filesystem demo a second time.
 ```
 northwind_demo/
   backend/                  — FastAPI agent server
-  alex-demo/                — Svelte frontend
+  northwind-demo/                — Svelte frontend
   northwind.db              — SQLite database
   workspace/                — All agent outputs saved here
 ```

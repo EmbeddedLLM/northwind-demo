@@ -47,6 +47,19 @@ def resolve_report_file(filename: str) -> Path:
     return path
 
 
+def workspace_needs_setup() -> bool:
+    po_dir = WORKSPACE_DIR / "purchase_orders"
+    return not po_dir.exists() or not any(po_dir.glob("*.txt"))
+
+
+def ensure_workspace_initialized() -> str:
+    if workspace_needs_setup():
+        return setup_workspace()
+
+    count = len(list((WORKSPACE_DIR / "purchase_orders").glob("*.txt")))
+    return f"Workspace already has {count} purchase order files."
+
+
 def setup_workspace() -> str:
     po_dir = WORKSPACE_DIR / "purchase_orders"
     if WORKSPACE_DIR.exists():

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import type { ChatItem } from '$lib/types';
+	import type { ChatHistoryMessage, ChatItem } from '$lib/types';
 	import { LEVEL_MAP } from '$lib/config';
 	import { streamAgent, setupWorkspace } from '$lib/api';
 	import { md, parseAnswerSegments, mdWithReportLinks } from '$lib/markdown';
@@ -39,6 +39,16 @@
 	let _idCounter = 0;
 	function uid() {
 		return String(++_idCounter);
+	}
+
+	function conversationHistory(): ChatHistoryMessage[] {
+		return items
+			.flatMap((item): ChatHistoryMessage[] => {
+				if (item.type === 'user') return [{ role: 'user', content: item.content }];
+				if (item.type === 'answer') return [{ role: 'assistant', content: item.content }];
+				return [];
+			})
+			.slice(-12);
 	}
 
 	// ── Event handler ──────────────────────────────────────────────────────────
@@ -183,10 +193,11 @@
 		if (!q || running) return;
 
 		running = true;
+		const history = conversationHistory();
 		items.push({ id: uid(), type: 'user', content: q });
 
 		try {
-			for await (const event of streamAgent(data.level, q)) {
+			for await (const event of streamAgent(data.level, q, history)) {
 				if (event.type !== 'heartbeat' && event.type !== 'done') {
 					handleEvent(event);
 				}

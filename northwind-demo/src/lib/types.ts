@@ -7,6 +7,11 @@ export interface LevelConfig {
 	demoPrompt: string;
 }
 
+export interface ChatHistoryMessage {
+	role: 'user' | 'assistant';
+	content: string;
+}
+
 // ── Chat item union ───────────────────────────────────────────────────────────
 
 export type ChatItem =

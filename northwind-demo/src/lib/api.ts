@@ -1,11 +1,14 @@
+import type { ChatHistoryMessage } from './types';
+
 export async function* streamAgent(
 	level: number,
-	question: string
+	question: string,
+	history: ChatHistoryMessage[] = []
 ): AsyncGenerator<Record<string, unknown>> {
 	const response = await fetch('/api/run', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ level, question })
+		body: JSON.stringify({ level, question, history })
 	});
 
 	if (!response.ok) {

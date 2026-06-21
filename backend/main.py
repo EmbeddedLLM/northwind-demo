@@ -1,12 +1,13 @@
 """FastAPI backend gateway for Alex, the Northwind AI Analyst.
 
 This module is intentionally thin: it owns HTTP routing, validation, and file
-responses. The agent loop, tools, report rendering, and workspace setup live in
-agent.py.
+responses. The agent loop lives in agent.py; demo-specific agent configs live
+in backend/agents/levelN-agent.py.
 """
 
 import asyncio
 import sys
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 if __package__ in (None, ""):
@@ -21,6 +22,7 @@ try:
     from .models import RunRequest
     from .settings import MODEL, BASE_URL
     from .workspace import (
+        ensure_workspace_initialized,
         resolve_report_file,
         resolve_workspace_file,
         setup_workspace,
@@ -31,13 +33,23 @@ except ImportError:
     from backend.models import RunRequest
     from backend.settings import MODEL, BASE_URL
     from backend.workspace import (
+        ensure_workspace_initialized,
         resolve_report_file,
         resolve_workspace_file,
         setup_workspace,
         workspace_tree,
     )
 
-app = FastAPI(title="Alex — Northwind AI Analyst")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    loop = asyncio.get_running_loop()
+    msg = await loop.run_in_executor(None, ensure_workspace_initialized)
+    print(f"Level 4 workspace startup: {msg}", flush=True)
+    yield
+
+
+app = FastAPI(title="Alex — Northwind AI Analyst", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

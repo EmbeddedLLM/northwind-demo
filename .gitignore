@@ -22,12 +22,12 @@ backend/__pycache__/
 backend/reports/
 
 # Frontend outputs
-alex-demo/node_modules/
-alex-demo/.svelte-kit/
-alex-demo/build/
-alex-demo/.vercel/
-alex-demo/.netlify/
-alex-demo/.wrangler/
+northwind-demo/node_modules/
+northwind-demo/.svelte-kit/
+northwind-demo/build/
+northwind-demo/.vercel/
+northwind-demo/.netlify/
+northwind-demo/.wrangler/
 
 # Workspace artifacts
 workspace/
