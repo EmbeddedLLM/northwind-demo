@@ -34,7 +34,8 @@ Edit `backend/.env` and set `BASE_URL`, `API_KEY`, and `MODEL` for your model pr
 4. Start the backend API in one terminal:
 
 ```bash
-uv run --package backend python backend/main.py
+cd backend
+uv run main.py
 ```
 
 5. Start the frontend in a second terminal:
